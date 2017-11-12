@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
-import src.Process;
+import src.memory.Process;
 
 public class ProcessParser {
 	/* Represents the scanner that will read the contents of the disk file */

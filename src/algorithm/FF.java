@@ -1,8 +1,8 @@
 package src.algorithm;
 
-import src.MemorySlot;
-import src.Process;
-import java.util.LinkedList;
+import src.memory.MemoryAllocator;
+import src.memory.MemorySlot;
+import src.memory.Process;
 
 /**
  * Created on 11/11/17.
@@ -11,8 +11,8 @@ import java.util.LinkedList;
  */
 public class FF extends MemoryAllocator {
 
-	public FF(LinkedList<Process> processList, LinkedList<MemorySlot> memoryList) {
-		super(processList, memoryList);
+	public FF(String memoryInput, String processInput) throws Exception {
+		super(memoryInput, processInput);
 	}
 
 	/**
@@ -27,7 +27,7 @@ public class FF extends MemoryAllocator {
 		MemorySlot slot = null;
 
 		// Execute for each slot in algorithm list until we find one that fits
-		for (MemorySlot memorySlot: memoryList) {
+		for (MemorySlot memorySlot: mList) {
 
 			// if process fits in algorithm slot, add it to the algorithm slot
 			if (process.size <= memorySlot.spaceAvailable()) {

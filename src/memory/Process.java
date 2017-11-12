@@ -1,9 +1,9 @@
-package src;
+package src.memory;
 /**
- * Represents a process with an id and a size.
+ * The <code>Process</code> class represents each process read from the
+ * Pinput.data. Each <code>Process</code> has an id and a size.
  *
  * @author Richard I. Zhunio
- * Created on 11/11/17.
  */
 public class Process implements Cloneable {
 	/* Represents the id of this process */
@@ -22,6 +22,12 @@ public class Process implements Cloneable {
 		this.size = processSize;
 	}
 
+	/**
+	 * String representation of a <code>Process</code>. The <code>id</code>
+	 * and <code>size</code> of a <code>Process</code> is returned.
+	 * @return the <code>id</code>
+	 * and <code>size</code> of a <code>Process</code>
+	 */
 	@Override
 	public String toString() {
 		return id + " " + size;

@@ -1,8 +1,8 @@
 package src.algorithm;
 
-import src.MemorySlot;
-import src.Process;
-import java.util.LinkedList;
+import src.memory.MemoryAllocator;
+import src.memory.MemorySlot;
+import src.memory.Process;
 
 /**
  * Created on 11/11/17.
@@ -10,8 +10,8 @@ import java.util.LinkedList;
  * @author Richard I. Zhunio
  */
 public class WF extends MemoryAllocator {
-	public WF(LinkedList<Process> processList, LinkedList<MemorySlot> memoryList) {
-		super(processList, memoryList);
+	public WF(String memoryInput, String processInput) throws Exception {
+		super(memoryInput, processInput);
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class WF extends MemoryAllocator {
 		MemorySlot worstFit = null;
 
 		// For each algorithm slot, find the worst fit
-		for (MemorySlot slot: memoryList) {
+		for (MemorySlot slot: mList) {
 
 			// if process fits in algorithm slot
 			if (process.size <= slot.spaceAvailable()) {

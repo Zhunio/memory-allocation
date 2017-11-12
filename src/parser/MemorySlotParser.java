@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
-import src.MemorySlot;
+import src.memory.MemorySlot;
 
 public class MemorySlotParser {
 	/* Represents the scanner that will read the contents of the disk file */

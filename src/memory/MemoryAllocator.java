@@ -1,18 +1,44 @@
-package src.algorithm;
+package src.memory;
 
-import src.MemorySlot;
-import src.Process;
+// User libraries
+import src.algorithm.BF;
+import src.algorithm.FF;
+import src.algorithm.WF;
+import src.parser.MemorySlotParser;
+import src.parser.ProcessParser;
+
+// Java SDK Libraries
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 
-public abstract class MemoryAllocator {
-	LinkedList<Process> processList;
-	LinkedList<MemorySlot> memoryList;
+/**
+ * @author Richard I. Zhunio
+ */
+public class MemoryAllocator {
+	protected LinkedList<MemorySlot> mList;
+	private LinkedList<Process> pList;
 
-	public MemoryAllocator(LinkedList<Process> processList, LinkedList<MemorySlot> memoryList) {
-		this.processList = processList;
-		this.memoryList = memoryList;
+	protected MemoryAllocator(String memoryInput, String processInput)
+		throws Exception {
+		mList = new MemorySlotParser(memoryInput).parse();
+		pList = new ProcessParser(processInput).parse();
+	}
+
+	public static MemoryAllocator generate(String memoryAlgorithm,
+										   String memoryInput, String processInput)
+		throws Exception {
+		switch (memoryAlgorithm) {
+			case "FF":
+				return new FF(memoryInput, processInput);
+			case "BF":
+				return new BF(memoryInput, processInput);
+			case "WF":
+				return new WF(memoryInput, processInput);
+			default:
+				throw new Exception("Not supported memory allocator "
+					+ "algorithm: " + memoryAlgorithm);
+		}
 	}
 
 	public List<String> run() {
@@ -20,7 +46,7 @@ public abstract class MemoryAllocator {
 		List<String> logger = new LinkedList<>();
 
 		// Retrieve list iterator from process list
-		ListIterator<Process> iter = processList.listIterator();
+		ListIterator<Process> iter = pList.listIterator();
 
 		// For each process in process list
 		while (iter.hasNext()) {
@@ -28,6 +54,8 @@ public abstract class MemoryAllocator {
 			Process process = iter.next();
 
 			// Allocate algorithm slot to process
+			// Allocation of slot depends on specific algorithm
+			// Implement allocateSlot method when extending this class
 			MemorySlot slot = allocateSlot(process);
 
 			if (slot != null) {
@@ -40,9 +68,9 @@ public abstract class MemoryAllocator {
 		}
 
 		// If some processes have not been allocated
-		if (!processList.isEmpty()) {
+		if (!pList.isEmpty()) {
 			// Log any processes
-			for (Process process : processList)
+			for (Process process : pList)
 				logger.add("-" + process.id);
 		}
 		// If all processes have been allocated
@@ -58,9 +86,13 @@ public abstract class MemoryAllocator {
 	 * {@code Process}, the {@code MemorySlot} returned is null. Otherwise,
 	 * the returned value contains the {@code MemorySlot} that allocates the
 	 * {@code Process}.
+	 *
 	 * @param process the {@code Process} to allocate.
 	 * @return the {@code MemorySlot} that allocates the {@code process}, otherwise
 	 * null is returned.
 	 */
-	public abstract MemorySlot allocateSlot(Process process);
+	protected MemorySlot allocateSlot(Process process) {
+		throw new UnsupportedOperationException(
+			"This method must be overwritten when extending MemoryAllocator class.");
+	}
 }

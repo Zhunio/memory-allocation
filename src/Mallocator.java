@@ -1,64 +1,93 @@
 package src;
 
-import src.algorithm.*;
-import src.parser.*;
-import java.util.LinkedList;
+// User libraries
+import src.memory.MemoryAllocator;
+
+// Java SDK Libraries
+import java.io.File;
+import java.io.PrintWriter;
 import java.util.List;
 
 /**
- * Created on 11/11/17.
+ * <p>The <code>Mallocator</code> class represents the entry point to the memory
+ * allocation project.
  *
+ * <p>The {@code #main} method receives the following arguments:
+ * <blockquote><pre>{@code
+ *		args[0] = File path to Minput.data
+ *		args[1] = File path to Pinput.data
+ *		args[2] = First memory allocation method such as FF, BF, WF
+ *		args[3] = Second memory allocation method
+ *		args[n] = N memory allocation method.
+ * }</pre></blockquote>
+ *
+ * <p>The memory allocation project consists of implementing three memory
+ * allocation methods: First Fit (FF), Best Fit(BF), and Worst Fit (WF). The
+ * {@code #main} method accepts the following arguments as valid memory allocation
+ * methods: FF, BF, and WF.
  * @author Richard I. Zhunio
  */
 public class Mallocator {
-	public static void main(String[] args) throws Exception{
-		String Minput = "Minput.data";
-		String Pinput = "Pinput.data";
-
-		// Create parsers for parsing Minput.data and Pinput.data
-		MemorySlotParser mParser = new MemorySlotParser(Minput);
-		ProcessParser pParser = new ProcessParser(Pinput);
-
-		// Parse input data and
-		LinkedList<MemorySlot> listOfSlots = mParser.parse();
-		LinkedList<Process> listOfProcesses = pParser.parse();
-
-		// Perform first fit algorithm
-		FF firstFit = new FF(copyProcesses(listOfProcesses), copySlots(listOfSlots));
-		List<String> log = firstFit.run();
-
-		// Perform best fit algorithm
-		BF bestFit = new BF(copyProcesses(listOfProcesses), copySlots(listOfSlots));
-		List<String> log1 = bestFit.run();
-
-		// Perform worst fit algorithm
-		WF worstFit = new WF(copyProcesses(listOfProcesses), copySlots(listOfSlots));
-		List<String> log2 = worstFit.run();
-
-		System.out.println(log);
-		System.out.println(log1);
-		System.out.println(log2);
-	}
-
-	private static LinkedList<MemorySlot> copySlots(LinkedList<MemorySlot> listOfSlots)
-		throws CloneNotSupportedException {
-		LinkedList<MemorySlot> temp = new LinkedList<>();
-		for (MemorySlot slot: listOfSlots) {
-			temp.add((MemorySlot) slot.clone());
+	public static void main(String[] args) throws Exception {
+		//Check for min number of arguments
+		if (args.length < 3) {
+			System.err.println("Wrong number of cmd arguments.");
+			System.exit(1);
 		}
 
-		return temp;
-	}
+		// Retrieve memory input file and process input file arguments
+		String mInput = args[0];
+		String pInput = args[1];
 
-	private static LinkedList<Process> copyProcesses(LinkedList<Process> listOfProcesses)
-		throws CloneNotSupportedException {
-		LinkedList<Process> temp = new LinkedList<>();
-		for (Process process: listOfProcesses) {
-			temp.add((Process) process.clone());
+		// Will hold memory allocator algorithms
+		String[] mAlgorithms = new String[args.length - 2];
+
+		// Represents memory allocator index from cmd arguments
+		int algorithmIndex = 2;
+
+		// Retrieve memory allocator algorithms
+		while (algorithmIndex < args.length) {
+			mAlgorithms[algorithmIndex - 2] = args[algorithmIndex++];
 		}
 
-		return temp;
-	}
+		// Perform the memory allocator algorithms
+		for (String mAlgorithm: mAlgorithms) {
+			// Create new Memory allocator algorithm
+			MemoryAllocator mAllocator =
+				MemoryAllocator.generate(mAlgorithm, mInput, pInput);
 
+			// Run memory allocator algorithm
+			List<String> log = mAllocator.run();
+
+			// Generate output file path
+			File outputFile = getOutputFile(mAlgorithm);
+
+			// Save the log into a file
+			PrintWriter writer = new PrintWriter(outputFile);
+			log.forEach(writer::println);
+			writer.close();
+		}
+
+	}
+	/**
+	 * Generates the output file from the input file. It assures to place the
+	 * output file in the same directory as the input file and also renames
+	 * the generated file to output.[ext]
+	 *
+	 * @param file the input file
+	 * @return the generated output file
+	 */
+	private static File getOutputFile(String file) {
+		// Get parent directory
+		String parentDir = new File(file).getParent();
+
+		// Test if parent dir is null
+		parentDir = parentDir == null ? "" : parentDir + "/";
+
+		// Get output name
+		String output = file + "output.data";
+
+		return new File(parentDir + output);
+	}
 
 }
