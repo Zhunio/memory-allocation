@@ -1,35 +1,55 @@
 package src.parser;
 
+// User defined libraries
+
+import src.memory.Process;
+
+// Java SDK libraries
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.LinkedList;
 import java.util.Scanner;
-import src.memory.Process;
 
+/**
+ * The <code>ProcessParser</code> class is responsible for parsing the
+ * Pinput.data file. The Pinput.data file constains a list of processes.
+ * The format of the Pinput.data is as follows:
+ * <blockquote><pre>{@code
+ * 	3        = number of processes
+ * 	1 190    = process id and size
+ * 	... ...
+ * 	... ...
+ * }</pre></blockquote>
+ *
+ * @author Richard I. Zhunio
+ */
 public class ProcessParser {
-	/* Represents the scanner that will read the contents of the disk file */
+	/* Scanner that will read the contents of the disk file */
 	private Scanner reader;
 
+	/**
+	 * Creates a new <code>ProcessParser</code>.
+	 *
+	 * @param file the filepath to the Pinput.data
+	 * @throws FileNotFoundException if <code>file</code> is not a correct
+	 *                               path to the Pinput.data
+	 */
 	public ProcessParser(String file) throws FileNotFoundException {
 		reader = new Scanner(new File(file));
 	}
 
 	/**
-	 * Parse a Pinput.data file.
-	 * The format is as follows:
-	 * 3		- Number of processes
-	 * 1 190	- Process ID followed by process size.
-	 * 2 210	- Same as above
-	 * 3 205
-	 * @return A list of processes.
-	 * @throws Exception if error occurs
+	 * Parses a Pinput.data file.
+	 *
+	 * @return list of {@link src.memory.Process}s read from the Pinput.data file
+	 * @throws InvalidNumberException if invalid number processes are provided.
 	 */
 	@SuppressWarnings("unused")
-	public LinkedList<Process> parse() throws Exception {
-		// Represents list of processes that will be read from file disk
+	public LinkedList<Process> parse() throws InvalidNumberException {
+		// Represents a list of processes
 		LinkedList<Process> listOfProcesses = new LinkedList<>();
 
-		// Read process no
+		// Read number of processes
 		int processNo = readProcessNo();
 
 		// Read list of processes from file disk
@@ -38,14 +58,15 @@ public class ProcessParser {
 		// Return list of processes
 		return listOfProcesses;
 	}
+
 	/**
 	 * Reads the number of processes in the disk file. The first line is
 	 * read, and we expect one int value.
 	 *
 	 * @return the number of processes in the disk file.
-	 * @throws Exception if there is an invalid number of processes.
+	 * @throws InvalidNumberException if there is an invalid number of processes.
 	 */
-	private int readProcessNo() throws Exception {
+	private int readProcessNo() throws InvalidNumberException {
 
 		// if invalid number of processes
 		int processNo = -1;
@@ -58,19 +79,21 @@ public class ProcessParser {
 
 			// Error occurs if an invalid number is entered
 			if (processNo < 0)
-				throw new Exception("No valid number of processes: "
+				throw new InvalidNumberException("No valid number of processes: "
 					+ processNo);
 		}
 
 		return processNo;
 	}
+
 	/**
-	 * Read processes from Pinput.data. Format is specified above in parse method.
-	 * @param listOfProcesses list to hold list o processes.
+	 * Reads processes from Pinput.data and adds them to a list.
+	 *
+	 * @param listOfProcesses list to hold {@link src.memory.Process}s.
 	 */
 	private void readProcesses(LinkedList<Process> listOfProcesses) {
 
-		// Read the next line containing process
+		// Read the next line containing a process
 		while (reader.hasNextLine()) {
 
 			// Retrieve next line to parse
@@ -81,8 +104,8 @@ public class ProcessParser {
 			int processID = parser.nextInt();
 			int processSize = parser.nextInt();
 
-			// Add new process to the ready queue
-			listOfProcesses.add( new Process(processID, processSize) );
+			// Add new process to the list
+			listOfProcesses.add(new Process(processID, processSize));
 		}
 	}
 }

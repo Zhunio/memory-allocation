@@ -29,7 +29,7 @@ public class MemorySlot implements Cloneable {
 	/* The ending address of the last process added to this memory slot */
 	public int endMarker;
 
-	/* List of pList inside this algorithm slot */
+	/* List of processes inside this memory slot */
 	public LinkedList<Process> processList;
 
 	/**
