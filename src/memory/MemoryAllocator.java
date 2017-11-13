@@ -25,24 +25,30 @@ import java.util.ListIterator;
  * instantiating this class. The {@link #allocateSlot} method contains no implementation
  * and must be implemented by the extending class. If extending class fails to
  * implement the {@link #allocateSlot} method, the run method will throw a
- * {@link UnsupportedOperationException}.
+ * <code>UnsupportedOperationException</code>.
  *
  * <p>Because a memory allocating method algorithm depends heavily on the part
  * when a memory slot is allocated to a process, the {@link #allocateSlot} method
  * is provided for the extending class to implement. The {@link #allocateSlot}
- * method should allocate a {@link MemorySlot} to the current {@link Process}
- * and then return the {@link MemorySlot} that was allocated to the process.
+ * method should allocate a <code>MemorySlot</code> to the current <code>Process</code>
+ * and then return the <code>MemorySlot</code> that was allocated to the process.
  * If the {@link #allocateSlot} method is not able to allocate a process, then
  * null is returned. However, this is handle properly by the {@link #run} method.
  *
  * @author Richard I. Zhunio
+ * @see src.algorithm.FF
+ * @see src.algorithm.BF
+ * @see src.algorithm.WF
+ * @see MemorySlot
+ * @see Process
+ * @see UnsupportedOperationException
  */
 public class MemoryAllocator {
 	/** List of memory slots */
 	protected LinkedList<MemorySlot> mList;
 
 	/** List of processes */
-	private LinkedList<Process> pList;
+	protected LinkedList<Process> pList;
 
 	/**
 	 * Creates a new <code>MemoryAllocator</code>.
@@ -105,15 +111,15 @@ public class MemoryAllocator {
 	}
 
 	/**
-	 * Allocates a {@code Process} to a {@code MemorySlot} if the
-	 * {@code MemorySlot} has enough space available for the {@code Process}.
-	 * If the {@code MemorySlot} does not have enough space available for the
-	 * {@code Process}, the {@code MemorySlot} returned is null. Otherwise,
-	 * the returned value contains the {@code MemorySlot} that allocates the
-	 * {@code Process}.
+	 * Allocates a <code>Process</code> to a <code>MemorySlot</code> if the
+	 * <code>MemorySlot</code> has enough space available for the <code>Process</code>.
+	 * If the <code>MemorySlot</code> does not have enough space available for the
+	 * <code>Process</code>, the <code>MemorySlot</code> returned is null. Otherwise,
+	 * the returned value contains the <code>MemorySlot</code> that allocates the
+	 * <code>Process</code>.
 	 *
-	 * @param process the {@code Process} to allocate.
-	 * @return the {@code MemorySlot} that allocates the {@code process}, otherwise
+	 * @param process the <code>Process</code> to allocate.
+	 * @return the <code>MemorySlot</code> that allocates the <code>Process</code>, otherwise
 	 * null is returned.
 	 */
 	protected MemorySlot allocateSlot(Process process) {

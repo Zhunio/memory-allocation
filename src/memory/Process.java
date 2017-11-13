@@ -6,10 +6,10 @@ package src.memory;
  * @author Richard I. Zhunio
  */
 public class Process implements Cloneable {
-	/* Represents the id of this process */
+	/** Represents the id of this process */
 	public int id;
 
-	/* Represents the size of this process */
+	/** Represents the size of this process */
 	public int size;
 
 	/**

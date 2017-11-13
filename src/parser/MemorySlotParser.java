@@ -21,9 +21,10 @@ import java.util.Scanner;
  * }</pre></blockquote>
  *
  * @author Richard I. Zhunio
+ * @see MemorySlot
  */
 public class MemorySlotParser {
-	/* Scanner that will read the contents of the disk file */
+	/** Scanner that will read the contents of the disk file */
 	private Scanner reader;
 
 	/**
@@ -40,7 +41,7 @@ public class MemorySlotParser {
 	/**
 	 * Parses a Minput.data file.
 	 *
-	 * @return list of {@link src.memory.MemorySlot}s read the Minput.data file.
+	 * @return list of <code>MemorySlot</code>s read the Minput.data file.
 	 * @throws InvalidNumberException if an invalid number of memory slots is
 	 *                                provided.
 	 */
@@ -91,7 +92,7 @@ public class MemorySlotParser {
 	/**
 	 * Reads memory slots from Minput.data and adds them to a list.
 	 *
-	 * @param listOfSlots list to hold {@link src.memory.MemorySlot}s.
+	 * @param listOfSlots list to hold <code>MemorySlot</code>s.
 	 */
 	private void readMemorySlots(LinkedList<MemorySlot> listOfSlots) {
 

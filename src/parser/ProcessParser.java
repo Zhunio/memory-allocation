@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 /**
  * The <code>ProcessParser</code> class is responsible for parsing the
- * Pinput.data file. The Pinput.data file constains a list of processes.
+ * Pinput.data file. The Pinput.data file contains a list of processes.
  * The format of the Pinput.data is as follows:
  * <blockquote><pre>{@code
  * 	3        = number of processes
@@ -22,9 +22,10 @@ import java.util.Scanner;
  * }</pre></blockquote>
  *
  * @author Richard I. Zhunio
+ * @see Process
  */
 public class ProcessParser {
-	/* Scanner that will read the contents of the disk file */
+	/** Scanner that will read the contents of the disk file */
 	private Scanner reader;
 
 	/**
@@ -41,7 +42,7 @@ public class ProcessParser {
 	/**
 	 * Parses a Pinput.data file.
 	 *
-	 * @return list of {@link src.memory.Process}s read from the Pinput.data file
+	 * @return list of <code>Process</code>s read from the Pinput.data file
 	 * @throws InvalidNumberException if invalid number processes are provided.
 	 */
 	@SuppressWarnings("unused")
@@ -89,7 +90,7 @@ public class ProcessParser {
 	/**
 	 * Reads processes from Pinput.data and adds them to a list.
 	 *
-	 * @param listOfProcesses list to hold {@link src.memory.Process}s.
+	 * @param listOfProcesses list to hold <code>Process</code>s.
 	 */
 	private void readProcesses(LinkedList<Process> listOfProcesses) {
 

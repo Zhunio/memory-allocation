@@ -15,21 +15,22 @@ import java.util.LinkedList;
  * processes contains a list of processes allocated to this memory slot.
  *
  * @author Richard I. Zhunio
+ * @see Process
  */
 public class MemorySlot implements Cloneable {
-	/* The starting address of this memory slot */
+	/** The starting address of this memory slot */
 	private int start;
 
-	/* The ending address of this memory slot */
+	/** The ending address of this memory slot */
 	private int end;
 
-	/* The starting address of the last process added to this memory slot */
+	/** The starting address of the last process added to this memory slot */
 	public int startMarker;
 
-	/* The ending address of the last process added to this memory slot */
+	/** The ending address of the last process added to this memory slot */
 	public int endMarker;
 
-	/* List of processes inside this memory slot */
+	/** List of processes inside this memory slot */
 	public LinkedList<Process> processList;
 
 	/**
@@ -46,7 +47,7 @@ public class MemorySlot implements Cloneable {
 
 	/**
 	 * Retrieves the space available in this memory slot.
-	 * @return space avalable in this memory slot.
+	 * @return space available in this memory slot.
 	 */
 	public int spaceAvailable() {
 		return end - endMarker;

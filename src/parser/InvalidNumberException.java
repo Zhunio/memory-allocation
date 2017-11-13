@@ -5,6 +5,8 @@ package src.parser;
  * defined as invalid is detected.
  *
  * @author Richard I. Zhunio
+ * @see MemorySlotParser
+ * @see ProcessParser
  */
 public class InvalidNumberException extends Exception {
 
