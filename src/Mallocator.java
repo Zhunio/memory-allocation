@@ -1,6 +1,9 @@
 package src;
 
 // User libraries
+import src.algorithm.BF;
+import src.algorithm.FF;
+import src.algorithm.WF;
 import src.memory.MemoryAllocator;
 
 // Java SDK Libraries
@@ -54,7 +57,7 @@ public class Mallocator {
 		for (String mAlgorithm: mAlgorithms) {
 			// Create new Memory allocator algorithm
 			MemoryAllocator mAllocator =
-				MemoryAllocator.generate(mAlgorithm, mInput, pInput);
+				Mallocator.generate(mAlgorithm, mInput, pInput);
 
 			// Run memory allocator algorithm
 			List<String> log = mAllocator.run();
@@ -69,6 +72,24 @@ public class Mallocator {
 		}
 
 	}
+
+	public static MemoryAllocator generate(String memoryAlgorithm,
+										   String memoryInput, String processInput)
+		throws Exception {
+		switch (memoryAlgorithm) {
+			case "FF":
+				return new FF(memoryInput, processInput);
+			case "BF":
+				return new BF(memoryInput, processInput);
+			case "WF":
+				return new WF(memoryInput, processInput);
+			default:
+				throw new Exception("Not supported memory allocator "
+					+ "algorithm: " + memoryAlgorithm);
+		}
+	}
+
+
 	/**
 	 * Generates the output file from the input file. It assures to place the
 	 * output file in the same directory as the input file and also renames
